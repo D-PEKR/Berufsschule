@@ -1,4 +1,4 @@
-package debekaPH1;
+package PH1;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;

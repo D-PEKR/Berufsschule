@@ -1,9 +1,9 @@
-package Test;
+package PH1;
 
-public class Test {
+public class ReverseFinanz {
 
 	public static void main(String[] args) {
-		
+
 	}
 
 }

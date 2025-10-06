@@ -1,4 +1,4 @@
-package debekaPH1;
+package PH1;
 
 public class Lotto {
 
