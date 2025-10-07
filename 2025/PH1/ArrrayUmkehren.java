@@ -5,7 +5,7 @@ public class ArrrayUmkehren {
 	public static void main(String[] args) {
 
         double[] original = {1, 2, 3, 4, 5};
-        double[] reversed = reverseArray(original);
+        double[] reversed = reverse(original);
 
         for (double num : reversed) {
             System.out.print(num + " ");
@@ -13,7 +13,7 @@ public class ArrrayUmkehren {
 
     }
 
-    public static double[] reverseArray(double[] array) {
+    public static double[] reverse(double[] array) {
         int left = 0;
         int right = array.length - 1;
 
