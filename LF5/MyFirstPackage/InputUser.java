@@ -27,5 +27,6 @@ public class InputUser{
         System.out.println("Der eingegebene Text lautet: " + text);
 
         System.out.println("Danke für die Eingaben!");
+        input.close();
     }
 }
