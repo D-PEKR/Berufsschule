@@ -1,5 +1,6 @@
 package MyFirstPackage;
 
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,12 +10,32 @@ public class Ratespiel {
 
         Scanner scanner = new Scanner(System.in);
 
-        int highscore = Integer.MAX_VALUE;   // kleinste Anzahl an Versuchen
-        long bestzeit = Long.MAX_VALUE;      // beste Zeit in Millisekunden
+        int highscore = Integer.MAX_VALUE;
+        long bestzeit = Long.MAX_VALUE;
+
+        File file = new File("Ratespiel_sicherung.txt");
+
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+
+                String line1 = reader.readLine();
+                String line2 = reader.readLine();
+
+                if (line1 != null) highscore = Integer.parseInt(line1);
+                if (line2 != null) bestzeit = Long.parseLong(line2);
+
+                System.out.println("Gespeicherter Highscore geladen.");
+                System.out.println("Highscore: " + highscore + " Versuche");
+                System.out.println("Beste Zeit: " + (bestzeit / 1000.0) + " Sekunden");
+
+            } catch (Exception e) {
+                System.out.println("Fehler beim Laden der Datei. Starte ohne gespeicherte Werte.");
+            }
+        }
 
         boolean weiterspielen = true;
 
-        System.out.println("Willkommen beim Zahlerraten-Spiel!");
+        System.out.println("\nWillkommen beim Zahlerraten-Spiel!");
         System.out.println("Optimale Strategie: Nutze eine Art 'Binäre Suche', also immer die Mitte des möglichen Bereichs raten.");
 
         while (weiterspielen) {
@@ -34,10 +55,9 @@ public class Ratespiel {
 
                 System.out.print("Gib deinen Tipp ein: ");
 
-                // Fehlerbehandlung
                 if (!scanner.hasNextInt()) {
                     System.out.println("Fehler: Bitte gib eine gültige Zahl ein!");
-                    scanner.next(); // ungültige Eingabe verwerfen
+                    scanner.next();
                     continue;
                 }
 
@@ -57,7 +77,7 @@ public class Ratespiel {
             }
 
             long endZeit = System.currentTimeMillis();
-            long benötigteZeit = endZeit - startZeit;
+            long benoetigteZeit = endZeit - startZeit;
 
             // Bewertung
             String bewertung;
@@ -73,7 +93,7 @@ public class Ratespiel {
 
             System.out.println("\nDu hast gewonnen!");
             System.out.println("Versuche: " + versuche);
-            System.out.println("Zeit: " + (benötigteZeit / 1000.0) + " Sekunden");
+            System.out.println("Zeit: " + (benoetigteZeit / 1000.0) + " Sekunden");
             System.out.println("Bewertung: " + bewertung);
 
             // Highscore aktualisieren
@@ -83,15 +103,23 @@ public class Ratespiel {
             }
 
             // Bestzeit aktualisieren
-            if (benötigteZeit < bestzeit) {
-                bestzeit = benötigteZeit;
+            if (benoetigteZeit < bestzeit) {
+                bestzeit = benoetigteZeit;
                 System.out.println("Neue Bestzeit!");
             }
 
             System.out.println("\nAktueller Highscore: " + highscore + " Versuche");
             System.out.println("Beste Zeit: " + (bestzeit / 1000.0) + " Sekunden");
 
-            // Extra-Feature: Weiterspielen?
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write(String.valueOf(highscore));
+                writer.newLine();
+                writer.write(String.valueOf(bestzeit));
+            } catch (IOException e) {
+                System.out.println("Fehler beim Speichern der Datei!");
+            }
+
+            // Weiterspielen?
             System.out.print("\nMöchtest du nochmal spielen? (j/n): ");
             String antwort = scanner.next();
 
